@@ -12,7 +12,7 @@ import { UpdateTodoItemComponent } from './todo/update-todo-item/update-todo-ite
  * detail   /todos/:id
  * update   /todos/edit/:id
  */
-const routes: Routes = [{
+export const routes: Routes = [{
   path: '',
   redirectTo: '/todos',
   pathMatch: 'full'
