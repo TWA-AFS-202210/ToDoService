@@ -10,15 +10,18 @@ export class TodoService {
 
   private _selectedTodoItem: ToDoItem = {} as ToDoItem;
   private _updatingTodoItem: ToDoItem = {} as ToDoItem;
-
+  todoItems: ToDoItem[] = [];
   constructor(private todoStore: TodoStoreService,
               private todoApi: TodoApiService) {
   }
 
-  public get todoItems(): Array<ToDoItem> {
-    return this.todoStore.getAll();
+  public load(): void {
+    this.todoApi.getAll().subscribe({
+      next: response => {
+        this.todoItems = response;
+      }
+    });
   }
-
   public create(todoItem: ToDoItem): void {
     this.todoApi.create(todoItem).subscribe({
       next: () => {}

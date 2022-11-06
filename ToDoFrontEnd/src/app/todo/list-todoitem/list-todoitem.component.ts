@@ -19,6 +19,7 @@ export class ListTodoitemComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.todoService.load()
   }
 
   public detail(id: number): void {

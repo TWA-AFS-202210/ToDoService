@@ -47,4 +47,14 @@ describe('TodoService', () => {
     // then
     expect(httpClientSpy.put).toHaveBeenCalledWith('https://635fc244ca0fe3c21aa3d012.mockapi.io/api/todos/3', todoItem);
   });
+
+  it('should create todoItem via mockHttp', () => {
+    // given 
+    const todoItem = new ToDoItem(3, 'Title test', 'description test', true);
+    httpClientSpy.get.and.returnValue(of([todoItem]))
+    // when
+    service.load();
+    // then
+    expect(service.todoItems).toEqual([todoItem]);
+  });
 });
