@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TodoApiService } from '../api/todo.api.service';
 import { ToDoItem } from '../model/ToDoItem';
 import { TodoStoreService } from './todo-store.service';
 
@@ -9,7 +10,9 @@ export class TodoService {
 
   private _selectedTodoItem: ToDoItem = {} as ToDoItem;
   private _updatingTodoItem: ToDoItem = {} as ToDoItem;
-  constructor(private todoStore: TodoStoreService) {
+
+  constructor(private todoStore: TodoStoreService,
+              private todoApi: TodoApiService) {
   }
 
   public get todoItems(): Array<ToDoItem> {
@@ -17,23 +20,37 @@ export class TodoService {
   }
 
   public create(todoItem: ToDoItem): void {
-    this.todoStore.create(todoItem);
+    this.todoApi.create(todoItem).subscribe({
+      next: () => {}
+    });
   }
 
   public update(updateTodoItem: ToDoItem): void {
-    this.todoStore.update(updateTodoItem);
+    this.todoApi.update(updateTodoItem).subscribe({
+      next: () => {}
+    });
   }
 
   public delete(id: number): void {
-    this.todoStore.delete(id);
+    this.todoApi.delete(id).subscribe({
+      next: () => {}
+    });
   }
 
   public selectTodoItem(id: number): void {
-    this._selectedTodoItem = this.todoStore.findById(id);
+    this.todoApi.findById(id).subscribe({
+      next: response => {
+        this._selectedTodoItem = response
+      }
+    });
   }
 
   public selectTodoItemForUpdate(id: number): void {
-    this._updatingTodoItem = Object.assign({}, this.todoStore.findById(id));
+    this.todoApi.findById(id).subscribe({
+      next: response => {
+        this._updatingTodoItem = response
+      }
+    });
   }
 
   public currentTodoItem(): ToDoItem {
