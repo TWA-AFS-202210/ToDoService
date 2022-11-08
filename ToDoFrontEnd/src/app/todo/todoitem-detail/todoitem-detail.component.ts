@@ -10,15 +10,16 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TodoitemDetailComponent implements OnInit {
 
-  get todoItem(): ToDoItem{
-    return this.todoService.currentTodoItem();
-  }
+  todoItem: ToDoItem = {} as ToDoItem;
 
   constructor(public todoService: TodoService,
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id')
-    this.todoService.selectTodoItem(Number(id));
+    this.todoService.findById(Number(id))
+      .subscribe(todoItem => {
+        this.todoItem = todoItem;
+      });
   }
 }
