@@ -5,4 +5,8 @@ export class ToDoItem {
               public isDone: boolean
   ) {
   }
+  
+  static buildDefault(): ToDoItem {
+    return {} as ToDoItem;
+  }
 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using ToDoService.Dtos;
 
 namespace ToDoService.Controllers
 {
+    [EnableCors("AllowAll")]
     [ApiController]
     [Route("[controller]")]
     public class ToDosController : ControllerBase
@@ -56,7 +56,7 @@ namespace ToDoService.Controllers
             return CreatedAtAction(nameof(Get), new { id = toDoItem.Id }, toDoItem);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public ToDoItem Update(ToDoItem todoItem)
         {
             CheckAndThrowException();
@@ -71,7 +71,7 @@ namespace ToDoService.Controllers
             return foundToDoItem;
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ToDoItem Delete(long id)
         {
             CheckAndThrowException();

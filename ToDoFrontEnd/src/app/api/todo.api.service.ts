@@ -18,11 +18,11 @@ export class TodoApiService {
   constructor(private http: HttpClient) { }
 
   create(todoItem: ToDoItem): Observable<ToDoItem> {
-    return this.http.post<ToDoItem>(BASE_URL, todoItem, httpOptions);
+    return this.http.post<ToDoItem>(BASE_URL, todoItem);
   }
 
   findById(id: number): Observable<ToDoItem> {
-    return this.http.get<ToDoItem>(`${BASE_URL}/${id}`, httpOptions);
+    return this.http.get<ToDoItem>(`${BASE_URL}/${id}`);
   }
 
   update(todoItem: ToDoItem): Observable<ToDoItem> {

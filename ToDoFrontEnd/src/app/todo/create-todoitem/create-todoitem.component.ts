@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToDoItem } from '../../model/ToDoItem';
 import { TodoService } from '../../service/todo.service';
 
@@ -9,17 +10,25 @@ import { TodoService } from '../../service/todo.service';
 })
 export class CreateTodoitemComponent implements OnInit {
 
-  public toDoItem: ToDoItem;
+  public todoItem: ToDoItem = ToDoItem.buildDefault();
 
-  constructor(private todoService: TodoService) {
-    this.toDoItem = new ToDoItem(0,'1', '2', false);
+  constructor(private todoService: TodoService,
+              private router: Router
+  ) {
   }
 
   ngOnInit(): void {
   }
 
   public createToDoItem(): void {
-    this.todoService.create(this.toDoItem);
+    this.todoService.create(this.todoItem).subscribe({
+      next: () => {
+        this.router.navigate(['/todos'])
+      }, error: err => {
+        console.log(err);
+        alert('system error');
+      }
+    });
   }
 
 }
