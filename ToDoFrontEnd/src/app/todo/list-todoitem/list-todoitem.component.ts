@@ -10,16 +10,18 @@ import { TodoService } from '../../service/todo.service';
 })
 export class ListTodoitemComponent implements OnInit {
 
-  public get toDoItems(): ToDoItem[] {
-    return this.todoService.todoItems;
-  }
+  todoItems: ToDoItem[] = [];
 
   constructor(private todoService: TodoService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.todoService.load()
+    this.todoService.load().subscribe({
+      next: response => {
+        this.todoItems = response;
+      }
+    });
   }
 
   public detail(id: number): void {
@@ -31,6 +33,20 @@ export class ListTodoitemComponent implements OnInit {
   }
 
   public doDelete(id: number): void {
-    this.todoService.delete(id);
+    this.todoService.delete(id).subscribe({
+      next: () => {
+        this.delete(id);
+      }, error: err => {
+        console.log(err);
+        alert('delete error');
+      }
+    });
+  }
+
+  private delete(id: number): void {
+    const index = this.todoItems.findIndex(item => item.id === id);
+    if (index >= 0) {
+      this.todoItems.splice(index, 1);
+    }
   }
 }
